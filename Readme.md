@@ -2076,5 +2076,4 @@ def detect_band_config(metadata: Dict, cfg: Dict = None) -> Dict:
 
 ---
 
-> **Built with:** Python 3.12 · OpenCV 4.8 · NumPy 1.24 · Rasterio 1.3 · Matplotlib 3.7 · PyYAML 6.0#   N D V I _ S C O R E _ C A L C U A L T O R  
- 
+> **Built with:** Python 3.12 · OpenCV 4.8 · NumPy 1.24 · Rasterio 1.3 · Matplotlib 3.7 · PyYAML 6.0#
