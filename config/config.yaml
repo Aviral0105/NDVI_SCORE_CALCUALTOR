@@ -1,0 +1,46 @@
+# ============================================================
+# Wheat Vegetation Index Pipeline — Configuration
+# Camera: MAPIR Survey3W OCN (Orange + Cyan + NIR)
+# ============================================================
+
+# ---- I/O Paths ----
+input_dir: "input"
+output_dir: "output"
+
+# ---- Camera / Band Mapping ----
+# Survey3W OCN: when saved as JPEG, OpenCV/Pillow maps channels as:
+#   JPEG R channel = Orange filter (~650 nm) → this is the RED band
+#   JPEG G channel = Cyan filter   (~550 nm) → this is the GREEN band
+#   JPEG B channel = NIR filter    (~850 nm) → this is the NIR band
+# The purple colour cast in the image is caused by NIR >> R,G in most scenes.
+camera_model: "MAPIR Survey3W OCN"
+bands:
+  NIR_channel: 2     # Blue JPEG channel stores NIR (~850 nm)
+  Green_channel: 1   # Green JPEG channel stores Cyan/Green (~550 nm)
+  Red_channel: 0     # Red JPEG channel stores Orange/Red (~650 nm)
+
+# ---- Vegetation Index Selection ----
+vi_mode: "NDVI"
+
+# ---- Preprocessing ----
+denoise_h: 10
+clahe_clip_limit: 2.0
+clahe_tile_grid: [8, 8]
+
+# ---- Leaf Segmentation ----
+# Calibrated for MAPIR OCN purple false-colour imagery of wheat
+# NDVI > 0.06 captures ~39% of pixels (good for this wheat-dominated scene)
+ndvi_threshold: 0.06
+# HSV for this purple image: leaves are mid-saturation, mid-brightness
+# H in OpenCV HSV: purple = 130-155 out of 0-179
+hsv_green_lower: [120, 30, 100]
+hsv_green_upper: [179, 255, 255]
+shadow_v_min: 80
+min_leaf_area_px: 300
+
+# ---- Visualization ----
+colormap: "RdYlGn"
+dpi: 150
+
+# ---- Batch Processing ----
+extensions: [".tif", ".tiff", ".jpg", ".jpeg", ".png"]
